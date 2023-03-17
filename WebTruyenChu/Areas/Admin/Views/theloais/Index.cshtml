@@ -1,0 +1,252 @@
+﻿@model IEnumerable<WebTruyenChu.Models.theloai>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var theloai = ViewBag.model as WebTruyenChu.Models.theloai;
+}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Quản lý thể loại truyện</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Quản lý thể loại truyện</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#FormModalTheLoai">Add New</a>
+                <div class="modal fade" id="FormModalTheLoai">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Add New</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormData" method="POST">
+                                    @Html.TextBoxFor(model => theloai.tentheloai, new { @class = "form-control", placeholder = "Tên thể loại" }) <br />
+                                    @Html.TextBoxFor(model => theloai.tenurl, new { @class = "form-control", placeholder = "Tên không dấu" })
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_add">Add New</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalTheLoaiUpdate">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Update Thể loại</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormDataUpdate" method="POST">
+                                    @Html.HiddenFor(model => theloai.matheloai, new { @id = "theloaimatheloai" })
+                                    @Html.TextBoxFor(model => theloai.tentheloai, new { @class = "form-control", placeholder = "Tên thể loại", @id = "theloaitentheloai" }) <br />
+                                    @Html.TextBoxFor(model => theloai.tenurl, new { @class = "form-control", placeholder = "Tên không dấu", @id = "theloaitenurl" })
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_update">Save</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalTheLoaiDelete">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Delete Thể loại</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Are you sure want to delete?</h5>
+                                <input type="hidden" id="id_Del" />
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_delete">Delete</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="modal fade" id="FormModalTheLoaiDetail">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Detail</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormDataDetail" method="get">
+                                    @Html.DisplayFor(model => theloai.matheloai, new { @id = "theloaimatheloai" }) <br />
+                                    @Html.DisplayFor(model => theloai.tentheloai, new { @id = "theloaitentheloai" }) <br />
+                                    @Html.DisplayFor(model => theloai.tenurl, new { @id = "theloaitenurl" })
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_detail">Detail</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã thể loại</th>
+                            <th scope="col">Tên thể loại</th>
+                            <th scope="col">Tên Không dấu</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.matheloai)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tentheloai)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tenurl)
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-success" onclick="GetTheLoaiById(@item.matheloai)">Edit</a>
+                                    <a href="#" class="btn btn-danger" onclick="GetId(@item.matheloai)">Delete</a>
+                                    @*<a href="#" class="btn btn-secondary" onclick="Detail(@item.matheloai)">Detail</a>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+               
+               
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn_add").click(function () {
+                var Dataform = $("#FormData").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/theloais/Create",
+                    data: Dataform,
+
+                    success: function () {
+                        $('#FormModalTheLoai').modal('hide');
+                        swal("Success!", "New item added.", "success").then((value)=> {
+                            window.location.href = '/Admin/theloais/Index';
+                        })
+                    }
+                })
+            })
+        })
+        function GetTheLoaiById(ID) {
+            var url = "/Admin/theloais/GetTheLoaiById?id=" + ID;
+            $('#FormModalTheLoaiUpdate').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: url,
+
+                success: function (response) {
+                    var obj = JSON.parse(response);
+
+                    $('#theloaimatheloai').val(obj.matheloai);
+                    $('#theloaitentheloai').val(obj.tentheloai);
+                    $('#theloaitenurl').val(obj.tenurl);
+                }
+            })
+        }
+        $('#btn_update').click(function () {
+            var DataFormUpdate = $('#FormDataUpdate').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/theloais/Update",
+                data: DataFormUpdate,
+
+                success: function (response) {
+                    if (response.status==true) {
+                        $('#FormModalTheLoaiUpdate').modal('hide');
+                        swal("Success!", "Update successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/theloais/Index';
+                        });
+                    } else {
+                        $('#FormModalTheLoaiUpdate').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/theloais/Index';
+                        });
+                    }
+                }
+            })
+
+        })
+        function GetId(ID) {
+            $('#id_Del').val(ID);
+            $('#FormModalTheLoaiDelete').modal('show');
+        }
+        $('#btn_delete').click(function () {
+            var data_id = $('#id_Del').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/theloais/Delete",
+                data: {id: data_id},
+
+                success: function (response) {
+                    if (response.status == true) {
+                        $('#FormModalTheLoaiDelete').modal('hide');
+                        swal("Success!", "Delete successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/theloais/Index';
+                        });
+                    } else {
+                        $('#FormModalTheLoaiDelete').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/theloais/Index';
+                        });
+                    }
+                }
+            })
+        })
+       
+    </script>
+}
+

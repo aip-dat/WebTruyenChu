@@ -1,0 +1,325 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model PagedList.IPagedList<WebTruyenChu.Models.truyen>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var truyen = ViewBag.model as WebTruyenChu.Models.truyen;
+}
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Quản lý danh sách truyện</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Quản lý danh sách truyện</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#FormModalTruyen">Add New</a>
+                <div class="modal fade" id="FormModalTruyen">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Add New</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormData" method="POST">
+                                    @Html.TextBoxFor(model => truyen.matheloai, new { @class = "form-control", placeholder = "Mã thể loại" }) <br />
+                                    @Html.TextBoxFor(model => truyen.tentruyen, new { @class = "form-control", placeholder = "Tên truyện" }) <br />
+                                    @*@Html.TextBoxFor(model => truyen.hinh, new { @class = "form-control", placeholder = "Hình" })*@
+                                    @Html.EditorFor(model => truyen.hinh, new { htmlAttributes = new { @class = "form-control", placeholder = "Hình" } })
+                                    @Html.ValidationMessageFor(model => truyen.hinh, "", new { @class = "text-danger" })
+                                    <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                                           style="display:none;" />
+                                    <input type="button" id="btnUpload" value="Chọn" class="btn btn-success" />
+                                    <br />
+                                    <br />
+
+                                    @Html.TextBoxFor(model => truyen.tacgia, new { @class = "form-control", placeholder = "Tác giả" }) <br />
+                                    @Html.TextBoxFor(model => truyen.mota, new { @class = "form-control", placeholder = "Mô tả" }) <br />
+                                    @*@Html.TextBoxFor(model => truyen.ngaydangtruyen, new { @class = "form-control", placeholder = "Ngày đăng truyện yyyy/MM/dd" })*@
+                                    @*@Html.HiddenFor(model => truyen.ngaydangtruyen, new {@class = "form-control" })*@
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_add">Add New</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalTruyenUpdate">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Update Truyện</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormDataUpdate" method="POST">
+                                    @Html.HiddenFor(model => truyen.matruyen, new { @id = "Truyenmatruyen" })
+                                    @Html.TextBoxFor(model => truyen.matheloai, new { @class = "form-control", placeholder = "Mã thể loại", @id = "Truyenmatheloai" })  <br />
+                                    @Html.TextBoxFor(model => truyen.tentruyen, new { @class = "form-control", placeholder = "Tên truyện", @id = "Truyententruyen" }) <br />
+                                    @Html.TextBoxFor(model => truyen.hinh, new { @class = "form-control", placeholder = "Hình", @id = "Truyenhinh" }) <br />
+                                    @Html.TextBoxFor(model => truyen.tacgia, new { @class = "form-control", placeholder = "Tác giả", @id = "Truyentacgia" }) <br />
+                                    @Html.TextBoxFor(model => truyen.mota, new { @class = "form-control", placeholder = "Mô tả", @id = "Truyenmota" }) <br />
+                                    @*@Html.TextBoxFor(model => truyen.ngaydangtruyen, new { @class = "form-control", placeholder = "Ngày đăng truyện", @id = "Truyenngaydangtruyen" })*@
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_update">Save</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalTruyenDelete">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Delete Truyện</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Are you sure want to delete?</h5>
+                                <input type="hidden" id="id_Del" />
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_delete">Delete</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="modal fade" id="FormModalTruyenDetail">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title center-block">Detail</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="FormDataDetail" method="get">
+                            @Html.DisplayFor(model => Truyen.maTruyen, new { @id = "TruyenmaTruyen" }) <br />
+                            @Html.DisplayFor(model => Truyen.tenTruyen, new { @id = "TruyentenTruyen" }) <br />
+                            @Html.DisplayFor(model => Truyen.tenurl, new { @id = "Truyentenurl" })
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-primary" id="btn_detail">Detail</a>
+                        <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã truyện</th>
+                                <th scope="col">Mã thể loại</th>
+                                <th scope="col">Tên truyện</th>
+                                <th scope="col">Hình</th>
+                                <th scope="col">Tác giả</th>
+                                <th scope="col">Mô tả</th>
+                                <th scope="col">Ngày đăng truyện</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.matruyen)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.matheloai)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tentruyen)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.hinh)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tacgia)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.mota)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ngaydangtruyen)
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-success" onclick="GetTruyenById(@item.matruyen)">Edit</a>
+                                        <a href="#" class="btn btn-danger" onclick="GetId(@item.matruyen)">Delete</a>
+                                        @*<a href="#" class="btn btn-secondary" onclick="Detail(@item.maTruyen)">Detail</a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+             @Html.PagedListPager(Model,i=> Url.Action("Index", "truyenn", new { i }))
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn_add").click(function () {
+                var Dataform = $("#FormData").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/truyenn/Create",
+                    data: Dataform,
+
+                    success: function () {
+                        $('#FormModalTruyen').modal('hide');
+                        swal("Success!", "New item added.", "success").then((value) => {
+                            window.location.href = '/Admin/truyenn/Index';
+                        })
+                    }
+                })
+            })
+        })
+        function GetTruyenById(ID) {
+            var url = "/Admin/truyenn/GetTruyenById?id=" + ID;
+            $('#FormModalTruyenUpdate').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: url,
+
+                success: function (response) {
+                    var obj = JSON.parse(response);
+
+                    $('#Truyenmatruyen').val(obj.matruyen);
+                    $('#Truyenmatheloai').val(obj.matheloai);
+                    $('#Truyententruyen').val(obj.tentruyen);
+                    $('#Truyenhinh').val(obj.hinh);
+                    $('#Truyentacgia').val(obj.tacgia);
+                    $('#Truyenmota').val(obj.mota);
+                    /* $('#Truyenngaydangtruyen').val(obj.ngaydangtruyen);*/
+                }
+            })
+        }
+        $('#btn_update').click(function () {
+            var DataFormUpdate = $('#FormDataUpdate').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/truyenn/Update",
+                data: DataFormUpdate,
+
+                success: function (response) {
+                    if (response.status == true) {
+                        $('#FormModalTruyenUpdate').modal('hide');
+                        swal("Success!", "Update successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/truyenn/Index';
+                        });
+                    } else {
+                        $('#FormModalTruyenUpdate').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/truyenn/Index';
+                        });
+                    }
+                }
+            })
+
+        })
+        function GetId(ID) {
+            $('#id_Del').val(ID);
+            $('#FormModalTruyenDelete').modal('show');
+        }
+        $('#btn_delete').click(function () {
+            var data_id = $('#id_Del').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/truyenn/Delete",
+                data: { id: data_id },
+
+                success: function (response) {
+                    if (response.status == true) {
+                        $('#FormModalTruyenDelete').modal('hide');
+                        swal("Success!", "Delete successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/truyenn/Index';
+                        });
+                    } else {
+                        $('#FormModalTruyenDelete').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/truyenn/Index';
+                        });
+                    }
+                }
+            })
+        })
+
+    </script>
+}
+
+@section upload
+{
+    <script>
+        $(function () {
+            $('#btnUpload').click(function () {
+                $('#fileUpload').trigger('click');
+            });
+        });
+        $('#fileUpload').change(function () {
+            if (window.FormData !== undefined) {
+                var fileUpload = $('#fileUpload').get(0);
+                var files = fileUpload.files;
+                var formData = new FormData();
+                formData.append('file', files[0]);
+
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Admin/truyenn/ProcessUpload',
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (urlImage) {
+
+                            $('#pictureUpload').attr('src', urlImage);
+                            $('#hinh').val(urlImage);
+                        },
+                        error: function (err) {
+                            alert('Error ', err.statusText);
+                        }
+                    });
+            }
+        });
+    </script>
+}

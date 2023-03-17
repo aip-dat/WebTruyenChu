@@ -1,0 +1,67 @@
+﻿@model WebTruyenChu.Models.truyen
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>truyen</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.theloai.tentheloai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.theloai.tentheloai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tentruyen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tentruyen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hinh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hinh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tacgia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tacgia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mota)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mota)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaydangtruyen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaydangtruyen)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.matruyen }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

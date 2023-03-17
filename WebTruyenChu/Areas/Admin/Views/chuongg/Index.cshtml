@@ -1,0 +1,284 @@
+﻿@model IEnumerable<WebTruyenChu.Models.chuong>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var chuong = ViewBag.model as WebTruyenChu.Models.chuong;
+}
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Quản lý danh sách chương</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Quản lý danh sách chương</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#FormModalChuong">Add New</a>
+                <div class="modal fade" id="FormModalChuong">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Add New</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormData" method="POST">
+                                    @Html.TextBoxFor(model => chuong.matruyen, new { @class = "form-control", placeholder = "Mã truyện" }) <br />
+                                    @Html.TextBoxFor(model => chuong.tenchuong, new { @class = "form-control", placeholder = "Tên chương" }) <br />
+                                    @*@Html.TextBoxFor(model => chuong.ngaydangchuong, new { @class = "form-control", placeholder = "Ngày đăng chương yyyy/MM/dd" })<br />*@
+                                    @Html.TextAreaFor(model => chuong.noidungchuong, new { @class = "form-control", @id = "summernote" }) <br />
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_add">Add New</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalchuongUpdate">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Update Chương</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormDataUpdate" method="POST">
+                                    @Html.HiddenFor(model => chuong.machuong, new { @id = "chuongmachuong" })
+                                    @Html.TextBoxFor(model => chuong.matruyen, new { @class = "form-control", placeholder = "Mã truyện", @id = "chuongmatruyen" })  <br />
+                                    @Html.TextBoxFor(model => chuong.tenchuong, new { @class = "form-control", placeholder = "Tên chương", @id = "chuongtenchuong" }) <br />
+                                    @*@Html.TextBoxFor(model => chuong.ngaydangchuong, new { @class = "form-control", placeholder = "Ngày đăng chương", @id = "chuongngaydangchuong" }) <br />*@
+                                    @Html.TextAreaFor(model => chuong.noidungchuong, new { @class = "form-control", @id = "summernotenoidungchuong" }) <br />
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_update">Save</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="FormModalchuongDelete">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title center-block">Delete Truyện</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Are you sure want to delete?</h5>
+                                <input type="hidden" id="id_Del" />
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-primary" id="btn_delete">Delete</a>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="modal fade" id="FormModalchuongDetail">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title center-block">Detail</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="FormDataDetail" method="get">
+                                        @Html.DisplayFor(model => chuong.machuong, new { @id = "chuongmachuong" }) <br />
+                                        @Html.DisplayFor(model => chuong.tenchuong, new { @id = "chuongtenchuong" }) <br />
+                                        @Html.DisplayFor(model => chuong.tenurl, new { @id = "chuongtenurl" })
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-primary" id="btn_detail">Detail</a>
+                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã chương</th>
+                                <th scope="col">Mã truyện</th>
+                                <th scope="col">Tên chương</th>
+                                <th scope="col">Nội dung chương</th>
+                                <th scope="col">Ngày đăng chương</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.machuong)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.matruyen)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tenchuong)
+                                    </td>
+                                    <td>
+                                        @Html.Raw(item.noidungchuong)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ngaydangchuong)
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-success" onclick="GetchuongById(@item.machuong)">Edit</a>
+                                        <a href="#" class="btn btn-danger" onclick="GetId(@item.machuong)">Delete</a>
+                                        @*<a href="#" class="btn btn-secondary" onclick="Detail(@item.machuong)">Detail</a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Hello stand alone ui',
+            tabsize: 2,
+            height: 120,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#btn_add").click(function () {
+                var Dataform = $("#FormData").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/chuongg/Create",
+                    data: Dataform,
+
+                    success: function () {
+                        $('#FormModalchuong').modal('hide');
+                        swal("Success!", "New item added.", "success").then((value) => {
+                            window.location.href = '/Admin/chuongg/Index';
+                        })
+                    }
+                })
+            })
+        })
+        function GetchuongById(ID) {
+            var url = "/Admin/chuongg/GetChuongById?id=" + ID;
+            $('#FormModalchuongUpdate').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: url,
+
+                success: function (response) {
+                    var obj = JSON.parse(response);
+
+                    $('#chuongmachuong').val(obj.machuong);
+                    $('#chuongmatruyen').val(obj.matruyen);
+                    $('#chuongtenchuong').val(obj.tenchuong);
+                    $('#chuongngaydangchuong').val(obj.ngaydangchuong);
+                    $('#summernotenoidungchuong').val(obj.noidungchuong);
+                    /* $('#chuongngaydangchuong').val(obj.ngaydangchuong);*/
+                }
+            })
+        }
+        $('#btn_update').click(function () {
+            var DataFormUpdate = $('#FormDataUpdate').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/chuongg/Update",
+                data: DataFormUpdate,
+
+                success: function (response) {
+                    if (response.status == true) {
+                        $('#FormModalchuongUpdate').modal('hide');
+                        swal("Success!", "Update successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/chuongg/Index';
+                        });
+                    } else {
+                        $('#FormModalchuongUpdate').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/chuongg/Index';
+                        });
+                    }
+                }
+            })
+
+        })
+        function GetId(ID) {
+            $('#id_Del').val(ID);
+            $('#FormModalchuongDelete').modal('show');
+        }
+        $('#btn_delete').click(function () {
+            var data_id = $('#id_Del').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/chuongg/Delete",
+                data: { id: data_id },
+
+                success: function (response) {
+                    if (response.status == true) {
+                        $('#FormModalchuongDelete').modal('hide');
+                        swal("Success!", "Delete successfully.", "success").then((value) => {
+                            window.location.href = '/Admin/chuongg/Index';
+                        });
+                    } else {
+                        $('#FormModalchuongDelete').modal('hide');
+                        swal("Error!", response.message, "error").then((value) => {
+                            window.location.href = '/Admin/chuongg/Index';
+                        });
+                    }
+                }
+            })
+        })
+
+    </script>
+}
+

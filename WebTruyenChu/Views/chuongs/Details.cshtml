@@ -1,0 +1,51 @@
+﻿@model WebTruyenChu.Models.chuong
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>chuong</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.truyen.tentruyen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.truyen.tentruyen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tenchuong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tenchuong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.noidungchuong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.noidungchuong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaydangchuong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaydangchuong)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.machuong }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
